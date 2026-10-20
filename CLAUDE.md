@@ -1,0 +1,53 @@
+# CLAUDE.md — Open Build Journal
+
+This repo is **Muhammad Ukasha's personal portfolio website**.
+
+The full source of truth is **`PORTFOLIO_SPEC.md`**. Read it before every task. If anything in this file and the spec disagree, the spec wins. If the spec marks something `OPEN`, stop and ask Ukasha. Don't guess.
+
+---
+
+## Who you're working with
+
+- Ukasha is a **beginner** with code, Git and GitHub.
+- Explain every important action in plain English: what you're doing, why, and what changed.
+- Avoid jargon. If you have to use a technical term, explain it in one short line.
+- He reviews work step by step. Finish one stage, show him the result, and wait for his approval before starting the next.
+
+## Hard rules
+
+1. **Never invent content.** No fake achievements, clients, testimonials, stats, dates or experience. Use clearly labelled placeholders like `[PLACEHOLDER: ...]` for anything missing.
+2. **Real photos only.** Until his photos arrive, use a plain block labelled `PORTRAIT PLACEHOLDER`. Never use stock or AI-generated images of people.
+3. **Small, focused changes.** Never rewrite the whole site to fix one section. Touch only the files the task needs.
+4. **Check before you finish.** Run the build and fix any errors before saying a task is done.
+5. **No secrets in the repo.** No passwords, API keys, phone numbers or private info unless Ukasha explicitly provides them for the site.
+6. **Keep it lightweight.** No database, login system, backend, paid APIs, or heavy UI libraries.
+7. **Respect `prefers-reduced-motion`.** The site must work fully with all animation turned off.
+8. **Ask before** creating pull requests, merging, deleting files, or adding a new dependency.
+
+## Tech direction
+
+- Static website with minimal dependencies. Good options: **Astro** with static output, or **plain HTML/CSS/JS with Vite**. Propose one, explain why in plain English, and wait for approval.
+- No CSS framework unless there's a clear reason. Use CSS custom properties for the colour tokens in the spec.
+- It must deploy for free as a static site (GitHub Pages, Netlify or Vercel). The platform is still `OPEN`.
+- Mobile layouts are designed on purpose, not just shrunk versions of desktop.
+
+## Build stages
+
+Do these one at a time, with review after each one.
+
+1. **Foundation:** project setup, run and build scripts, and a bare placeholder homepage. ← **current stage**
+2. **Visual system:** colour tokens, font testing (show 2–3 real font pairings on screen for Ukasha to choose from), spacing, base styles.
+3. **Hero:** the integrated portrait and headline composition with a placeholder, then the real portrait.
+4. **Sections:** Entry 01 → How I Think → Builds → What's Next + Contact, one section at a time.
+5. **Polish:** mobile, accessibility, performance, links.
+6. **Deploy.**
+
+## Page structure (from the spec, five sections)
+
+00 Hero · 01 Entry 01: The Person · 02 How I Think · 03 Builds (the biggest section) · 04 What's Next + Contact
+
+## Progress log
+
+Update this list at the end of each stage, one line per stage.
+
+- 2026-10-20: Repo created. Spec and CLAUDE.md added. Stage 1 not started.
