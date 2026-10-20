@@ -316,7 +316,7 @@ Process strip: Idea → Plan → Build → Result (rough → finished transforma
 ## 9. Tech and build plan — `DRAFT`
 
 - **Builder:** Claude Code (cloud) with a GitHub repo. Lovable and Canva are **no longer** the build tools.
-- **Repo:** `open-build-journal`, public. *Not created yet.* Never commit passwords, keys, or private info.
+- **Repo:** `open-build-journal`, public. *Created on GitHub (UkashaGet/open-build-journal).* Never commit passwords, keys, or private info.
 - **Stack:** lightweight static site with minimal dependencies. No database, auth, backend, or paid APIs. Claude Code proposes the exact stack and explains it.
 - **Deployment target:** `OPEN` (e.g. GitHub Pages, Vercel, or Netlify free tier). Start on a free subdomain. Buy a custom domain only after the site is something worth sending.
 - **Budget:** $100 Claude Code cloud credit. Expiry reportedly around 5 Nov 2026. **Verify in account.**
@@ -325,7 +325,7 @@ Process strip: Idea → Plan → Build → Result (rough → finished transforma
 1. Foundation: repo, project setup, working preview and build
 2. Visual system: fonts, colours, spacing, base styles
 3. Hero with placeholder portrait, then the real portrait
-4. Sections 01–07
+4. The five sections: Entry 01 → How I Think → Builds → What's Next + Contact (after the hero)
 5. Polish: mobile, accessibility, performance, links
 6. Deploy
 
