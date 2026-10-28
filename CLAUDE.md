@@ -51,3 +51,4 @@ Do these one at a time, with review after each one.
 Update this list at the end of each stage, one line per stage.
 
 - 2026-10-20: Repo created. Spec and CLAUDE.md added. Stage 1 not started.
+- 2026-10-20: Stage 1 done. Astro (static output) set up with dev/build/preview scripts and a bare placeholder homepage. Build passes. Awaiting review.
