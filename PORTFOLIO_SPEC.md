@@ -317,7 +317,7 @@ Process strip: Idea → Plan → Build → Result (rough → finished transforma
 
 - **Builder:** Claude Code (cloud) with a GitHub repo. Lovable and Canva are **no longer** the build tools.
 - **Repo:** `open-build-journal`, public. *Created on GitHub (UkashaGet/open-build-journal).* Never commit passwords, keys, or private info.
-- **Stack:** lightweight static site with minimal dependencies. No database, auth, backend, or paid APIs. Claude Code proposes the exact stack and explains it.
+- **Stack:** `LOCKED` (decided 20 Oct 2026). **Astro with static output**: a lightweight static site with minimal dependencies (only `astro`). No database, auth, backend, or paid APIs. No CSS framework, no UI framework (React etc.). Scripts: `npm run dev`, `npm run build`, `npm run preview`.
 - **Deployment target:** `OPEN` (e.g. GitHub Pages, Vercel, or Netlify free tier). Start on a free subdomain. Buy a custom domain only after the site is something worth sending.
 - **Budget:** $100 Claude Code cloud credit. Expiry reportedly around 5 Nov 2026. **Verify in account.**
 
