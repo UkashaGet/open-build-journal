@@ -9,18 +9,18 @@
   --color-ivory: #f3ebdd; /* main background */
   --color-paper: #faf8f2; /* secondary surfaces */
   --color-charcoal: #24221f; /* headlines, primary text */
-  --color-gray: #79736a; /* metadata, supporting text, fine lines */
+  --color-gray: #79736a; /* fine lines only (3.97:1 on ivory, too light for text) */
+  --color-gray-text: #6b655c; /* small text and labels (4.87:1 on ivory, 5.43:1 on paper) */
   --color-clay: #a66e53; /* optional, very restrained accent */
 
   /* Colour roles (use these in components, not the raw colours) */
   --bg: var(--color-ivory);
   --bg-raised: var(--color-paper);
   --text: var(--color-charcoal);
-  --text-muted: var(--color-gray);
+  --text-muted: var(--color-gray-text);
   --rule: var(--color-gray);
   --accent: var(--color-clay);
   --grid: color-mix(in srgb, var(--color-gray) 14%, transparent); /* faint blueprint grid, Act II-III only */
-  /* Warm gray is 3.97:1 on ivory and 4.42:1 on paper, so it's for lines only, never text. */
 
   /* Fonts: pairing A, chosen by Ukasha. Loaded from Google Fonts in the page <head>.
      The names after each font are fallbacks shown while it loads. */
@@ -36,6 +36,10 @@
   --text-xl: clamp(1.75rem, 1.4rem + 1.4vw, 2.75rem);
   --text-2xl: clamp(2.5rem, 1.8rem + 3vw, 5rem);
   --text-hero: clamp(2.75rem, 1rem + 5.4vw, 7rem);
+  --text-label: 0.6875rem; /* 11px: running headers, captions, table heads */
+  --text-lead: clamp(2rem, 1.2rem + 2.6vw, 3.25rem); /* about 52px: Entry 01 lead */
+  --text-display: clamp(2.5rem, 1.9rem + 1.8vw, 3.5rem); /* about 56px: loop words */
+  --text-rail: clamp(6rem, 2rem + 11vw, 11.25rem); /* about 180px: entry number in the margin rail */
 
   --leading-tight: 1.02;
   --leading-snug: 1.25;
@@ -58,6 +62,7 @@
   /* Layout */
   --margin-page: clamp(1.25rem, 4.5vw, 4rem); /* outer margin, about 4-5vw per spec */
   --measure: 38rem; /* comfortable reading width */
+  --rail: 12.5rem; /* left margin rail on journal pages, about 200px */
   --radius-sm: 2px; /* spec: small corner radius only */
   --line: 1px;
 }

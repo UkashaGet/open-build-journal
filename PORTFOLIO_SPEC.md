@@ -155,9 +155,11 @@ Content blocks below (How I Work, Things I'm Exploring, What's Next) are kept as
 | Warm ivory | `#F3EBDD` | Main background |
 | Soft paper | `#FAF8F2` | Secondary surfaces |
 | Deep charcoal | `#24221F` | Headlines, primary text |
-| Warm gray | `#79736A` | Metadata, supporting text, fine lines |
+| Warm gray | `#79736A` | Fine lines only |
+| Text gray | `#6B655C` | All small text and labels (metadata, captions, running headers) |
 | Muted clay | `#A66E53` | Optional, very restrained accent |
 
+- **Text gray added 29 Oct 2026 (Ukasha):** warm gray `#79736A` is only 3.97:1 on ivory and 4.42:1 on paper, below the 4.5:1 needed for text. So `#79736A` is for lines only, and `#6B655C` (4.87:1 on ivory, 5.43:1 on paper) is used for all small text and labels.
 - The page is mostly ivory and charcoal. Never pure white, never pure black.
 - **Banned:** teal-led palette, bright blue, purple-blue gradients, neon, glassmorphism, colourful cards.
 - A muted blue for blueprint lines: `OPEN` (see Open Questions).

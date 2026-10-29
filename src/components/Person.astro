@@ -1,75 +1,117 @@
 ---
 // 01 · Entry 01: The Person (PORTFOLIO_SPEC.md section 8).
-// Copy is the spec's DRAFT About text, word for word. No grid in this section.
-const meta = ['Business student', 'Technology', 'AI', 'Digital creation', 'Currently exploring'];
+// Copy is the spec's DRAFT About text, word for word: the first two sentences are the lead,
+// the rest runs in two columns. No grid in this section.
+import JournalPage from './JournalPage.astro';
+
+const filedUnder = ['Business student', 'Technology', 'AI', 'Digital creation'];
 ---
 
-<section id="person" class="person" aria-labelledby="person-title">
-  <h2 id="person-title" class="person__label">Entry 01 — The Person</h2>
+<JournalPage id="person" entry="01" name="The Person" next={{ name: 'How I Think', href: '#think' }} titled>
+  <div slot="rail" class="filed">
+    <p class="filed__label">Filed under</p>
+    <ul class="filed__list">
+      {filedUnder.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="filed__status"><span class="filed__label">Status:</span> Currently exploring</p>
+  </div>
 
-  <div class="person__grid">
+  <div class="person">
+    <div class="person__text">
+      <p class="person__lead">
+        I'm someone who learns best by doing. I like taking a plan, breaking it into steps, and turning it into
+        something real.
+      </p>
+      <div class="person__columns">
+        <p>
+          My interest in technology pushed me toward different areas — YouTube content creation, video editing, photo
+          editing, design, AI tools, and building websites.
+        </p>
+        <p>
+          I'm still growing, still learning, and still trying different things to understand what I do best. I don't
+          believe in fake confidence or empty words. I believe in building real work, improving steadily, and staying
+          focused on long-term goals.
+        </p>
+      </div>
+    </div>
+
     <figure class="person__figure">
       <div class="person__photo">
         <span>Photo placeholder: working at desk</span>
       </div>
-      <ul class="person__meta" aria-label="In short">
-        {meta.map((item, i) => <li class={`person__tag person__tag--${i + 1}`}>{item}</li>)}
-      </ul>
+      <figcaption class="person__caption">Fig. 01 — At the desk</figcaption>
     </figure>
-
-    <div class="person__copy">
-      <p class="person__lead">
-        I'm someone who learns best by doing. I like taking a plan, breaking it into steps, and turning it into
-        something real. My interest in technology pushed me toward different areas — YouTube content creation, video
-        editing, photo editing, design, AI tools, and building websites.
-      </p>
-      <p>
-        I'm still growing, still learning, and still trying different things to understand what I do best. I don't
-        believe in fake confidence or empty words. I believe in building real work, improving steadily, and staying
-        focused on long-term goals.
-      </p>
-    </div>
   </div>
-</section>
+</JournalPage>
 
 <style>
-  .person {
-    padding: var(--space-10) var(--margin-page);
-    background: var(--bg);
-  }
-
-  .person__label {
-    margin-bottom: var(--space-9);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  /* ---------- Rail: filed under + status ---------- */
+  .filed {
+    margin-top: var(--space-7);
+    font-size: var(--text-sm);
     line-height: var(--leading-snug);
-    color: var(--text);
   }
 
-  .person__grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    column-gap: var(--space-6);
-    align-items: center;
-  }
-
-  /* Photo with the five labels around it: two above, three below. */
-  .person__figure {
-    grid-column: 1 / span 5;
+  .filed__label {
     margin: 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-areas:
-      't1 . t2'
-      'photo photo photo'
-      't3 t4 t5';
-    row-gap: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
   }
 
+  .filed__list {
+    margin: var(--space-3) 0 var(--space-5);
+    padding: 0;
+    list-style: none;
+  }
+
+  .filed__list li + li {
+    margin-top: var(--space-1);
+  }
+
+  .filed__status {
+    margin: 0;
+    padding-top: var(--space-3);
+    border-top: var(--line) solid var(--rule);
+  }
+
+  /* ---------- Page body: text left, photo right ---------- */
+  .person {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 22.5rem;
+    column-gap: var(--space-8);
+    align-items: start;
+  }
+
+  .person__lead {
+    max-width: 18em;
+    margin: 0 0 var(--space-7);
+    font-family: var(--font-display);
+    font-size: var(--text-lead);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+
+  .person__columns {
+    columns: 2;
+    column-gap: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: var(--line) solid var(--rule);
+  }
+
+  .person__columns p {
+    margin: 0 0 var(--space-4);
+    break-inside: avoid;
+  }
+
+  .person__figure {
+    margin: 0;
+  }
+
+  /* 360 x 450 placeholder until the real photo arrives. */
   .person__photo {
-    grid-area: photo;
     display: grid;
     place-items: center;
     aspect-ratio: 4 / 5;
@@ -78,133 +120,53 @@ const meta = ['Business student', 'Technology', 'AI', 'Digital creation', 'Curre
     border-radius: var(--radius-sm);
     background: var(--bg-raised);
     font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.08em;
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     text-align: center;
     color: var(--text);
   }
 
-  /* display: contents lets the five list items sit directly in the figure's grid. */
-  .person__meta {
-    display: contents;
-  }
-
-  .person__tag {
-    list-style: none;
+  .person__caption {
+    margin-top: var(--space-3);
     font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.08em;
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
     text-transform: uppercase;
-    line-height: var(--leading-snug);
-    color: var(--text);
+    color: var(--text-muted);
   }
 
-  /* A short tick line joins each label to the photo edge. */
-  .person__tag::before {
-    content: '';
-    display: block;
-    width: var(--space-5);
-    height: var(--line);
-    margin-bottom: var(--space-2);
-    background: var(--rule);
-  }
-
-  .person__tag--1 {
-    grid-area: t1;
-  }
-  .person__tag--2 {
-    grid-area: t2;
-  }
-  .person__tag--3 {
-    grid-area: t3;
-  }
-  .person__tag--4 {
-    grid-area: t4;
-  }
-  .person__tag--5 {
-    grid-area: t5;
-  }
-
-  .person__tag--2,
-  .person__tag--5 {
-    text-align: right;
-  }
-  .person__tag--2::before,
-  .person__tag--5::before {
-    margin-left: auto;
-  }
-  .person__tag--4 {
-    text-align: center;
-  }
-  .person__tag--4::before {
-    margin-inline: auto;
-  }
-
-  .person__copy {
-    grid-column: 7 / span 6;
-  }
-
-  .person__lead {
-    margin-bottom: var(--space-7);
-    font-family: var(--font-display);
-    font-size: var(--text-xl);
-    line-height: var(--leading-snug);
-    max-width: 30ch;
-  }
-
-  .person__copy p:last-child {
-    margin-bottom: 0;
-  }
-
-  /* ---------- Mobile: label, copy first, then photo with the labels listed under it ---------- */
+  /* ---------- Mobile: lead, text in one column, photo, filed-under stays under the number ---------- */
   @media (max-width: 860px) {
-    .person {
-      padding: var(--space-9) var(--margin-page);
+    .filed {
+      margin-top: var(--space-5);
     }
 
-    .person__label {
-      margin-bottom: var(--space-7);
-    }
-
-    .person__grid {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-8);
-    }
-
-    .person__figure {
-      order: 2;
-      display: block;
-    }
-
-    .person__photo {
-      margin-bottom: var(--space-5);
-    }
-
-    .person__meta {
+    .filed__list {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-3) var(--space-5);
-      margin: 0;
-      padding: var(--space-4) 0 0;
-      border-top: var(--line) solid var(--rule);
-      list-style: none;
+      gap: var(--space-1) var(--space-4);
+      margin: var(--space-2) 0 var(--space-4);
     }
 
-    .person__tag,
-    .person__tag--2,
-    .person__tag--5,
-    .person__tag--4 {
-      text-align: left;
+    .filed__list li + li {
+      margin-top: 0;
     }
 
-    .person__tag::before {
-      display: none;
+    .person {
+      display: block;
     }
 
     .person__lead {
       margin-bottom: var(--space-6);
+    }
+
+    .person__columns {
+      columns: 1;
+    }
+
+    .person__figure {
+      margin-top: var(--space-7);
     }
   }
 </style>
