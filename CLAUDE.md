@@ -52,3 +52,4 @@ Update this list at the end of each stage, one line per stage.
 
 - 2026-10-20: Repo created. Spec and CLAUDE.md added. Stage 1 not started.
 - 2026-10-20: Stage 1 done. Astro (static output) set up with dev/build/preview scripts and a bare placeholder homepage. Build passes. Awaiting review.
+- 2026-10-29: Stage 2 in progress. Colour tokens, spacing scale and base styles added. Temporary /type-test page compares 3 font pairings on the hero photo. Waiting for Ukasha to pick a pairing.
