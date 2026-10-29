@@ -1,0 +1,210 @@
+---
+// 01 · Entry 01: The Person (PORTFOLIO_SPEC.md section 8).
+// Copy is the spec's DRAFT About text, word for word. No grid in this section.
+const meta = ['Business student', 'Technology', 'AI', 'Digital creation', 'Currently exploring'];
+---
+
+<section id="person" class="person" aria-labelledby="person-title">
+  <h2 id="person-title" class="person__label">Entry 01 — The Person</h2>
+
+  <div class="person__grid">
+    <figure class="person__figure">
+      <div class="person__photo">
+        <span>Photo placeholder: working at desk</span>
+      </div>
+      <ul class="person__meta" aria-label="In short">
+        {meta.map((item, i) => <li class={`person__tag person__tag--${i + 1}`}>{item}</li>)}
+      </ul>
+    </figure>
+
+    <div class="person__copy">
+      <p class="person__lead">
+        I'm someone who learns best by doing. I like taking a plan, breaking it into steps, and turning it into
+        something real. My interest in technology pushed me toward different areas — YouTube content creation, video
+        editing, photo editing, design, AI tools, and building websites.
+      </p>
+      <p>
+        I'm still growing, still learning, and still trying different things to understand what I do best. I don't
+        believe in fake confidence or empty words. I believe in building real work, improving steadily, and staying
+        focused on long-term goals.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .person {
+    padding: var(--space-10) var(--margin-page);
+    background: var(--bg);
+  }
+
+  .person__label {
+    margin-bottom: var(--space-9);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: var(--leading-snug);
+    color: var(--text);
+  }
+
+  .person__grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--space-6);
+    align-items: center;
+  }
+
+  /* Photo with the five labels around it: two above, three below. */
+  .person__figure {
+    grid-column: 1 / span 5;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+      't1 . t2'
+      'photo photo photo'
+      't3 t4 t5';
+    row-gap: var(--space-3);
+  }
+
+  .person__photo {
+    grid-area: photo;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 5;
+    padding: var(--space-5);
+    border: var(--line) solid var(--rule);
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--text);
+  }
+
+  /* display: contents lets the five list items sit directly in the figure's grid. */
+  .person__meta {
+    display: contents;
+  }
+
+  .person__tag {
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: var(--leading-snug);
+    color: var(--text);
+  }
+
+  /* A short tick line joins each label to the photo edge. */
+  .person__tag::before {
+    content: '';
+    display: block;
+    width: var(--space-5);
+    height: var(--line);
+    margin-bottom: var(--space-2);
+    background: var(--rule);
+  }
+
+  .person__tag--1 {
+    grid-area: t1;
+  }
+  .person__tag--2 {
+    grid-area: t2;
+  }
+  .person__tag--3 {
+    grid-area: t3;
+  }
+  .person__tag--4 {
+    grid-area: t4;
+  }
+  .person__tag--5 {
+    grid-area: t5;
+  }
+
+  .person__tag--2,
+  .person__tag--5 {
+    text-align: right;
+  }
+  .person__tag--2::before,
+  .person__tag--5::before {
+    margin-left: auto;
+  }
+  .person__tag--4 {
+    text-align: center;
+  }
+  .person__tag--4::before {
+    margin-inline: auto;
+  }
+
+  .person__copy {
+    grid-column: 7 / span 6;
+  }
+
+  .person__lead {
+    margin-bottom: var(--space-7);
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+    max-width: 30ch;
+  }
+
+  .person__copy p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ---------- Mobile: label, copy first, then photo with the labels listed under it ---------- */
+  @media (max-width: 860px) {
+    .person {
+      padding: var(--space-9) var(--margin-page);
+    }
+
+    .person__label {
+      margin-bottom: var(--space-7);
+    }
+
+    .person__grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    .person__figure {
+      order: 2;
+      display: block;
+    }
+
+    .person__photo {
+      margin-bottom: var(--space-5);
+    }
+
+    .person__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3) var(--space-5);
+      margin: 0;
+      padding: var(--space-4) 0 0;
+      border-top: var(--line) solid var(--rule);
+      list-style: none;
+    }
+
+    .person__tag,
+    .person__tag--2,
+    .person__tag--5,
+    .person__tag--4 {
+      text-align: left;
+    }
+
+    .person__tag::before {
+      display: none;
+    }
+
+    .person__lead {
+      margin-bottom: var(--space-6);
+    }
+  }
+</style>

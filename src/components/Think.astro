@@ -1,0 +1,523 @@
+---
+// 02 · How I Think (PORTFOLIO_SPEC.md sections 3, 6 and 8).
+// The only scroll effect is line drawing: thin SVG lines that draw in when a diagram comes into view.
+// Without JavaScript, or with reduced motion, every line is simply shown fully drawn.
+const interests = ['AI', 'Design', 'Media', 'Business', 'Psychology'];
+const stages = ['Idea', 'Plan', 'Build', 'Learn', 'Improve'];
+
+// DRAFT descriptions, waiting for Ukasha's approval. Each says what he's exploring, not what he's good at.
+const exploring = [
+  ['AI', 'How AI tools can help me plan, write and build things faster.'],
+  ['Automation', 'How small automations can take repetitive tasks off my plate.'],
+  ['Design', 'How layout, type and colour make something clear and easy to use.'],
+  ['Psychology', 'Why people think, decide and act the way they do.'],
+  ['Video', 'How editing, pacing and sound turn an idea into a story worth watching.'],
+  ['Web', 'How websites are planned and built, starting with this one.'],
+  ['Business', 'How an idea becomes something people actually need.'],
+];
+---
+
+<section id="think" class="think" aria-labelledby="think-title">
+  <div class="think__head">
+    <div>
+      <p class="think__label">Entry 02 — How I Think</p>
+      <h2 id="think-title">How I think</h2>
+    </div>
+    <p class="think__message">
+      I enjoy the part where a careful plan turns into real work. I like breaking complex ideas down into practical
+      steps I can actually build.
+    </p>
+  </div>
+
+  <!-- Connected interests: different, but joined up -->
+  <div class="think__block">
+    <h3 class="think__sub">Connected interests</h3>
+    <ol class="chain" data-draw>
+      {
+        interests.map((name, i) => (
+          <li class="chain__item">
+            {i > 0 && (
+              <svg class="link" style={{ '--i': i - 1 }} aria-hidden="true" focusable="false">
+                <g class="link__h">
+                  <line x1="0" y1="50%" x2="100%" y2="50%" pathLength="1" />
+                </g>
+                <g class="link__v">
+                  <line x1="50%" y1="0" x2="50%" y2="100%" pathLength="1" />
+                </g>
+              </svg>
+            )}
+            <span class="chain__node">
+              <span class="dot" aria-hidden="true" />
+              {name}
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+
+  <!-- The loop: Idea → Plan → Build → Learn → Improve, then back to Idea -->
+  <div class="think__block">
+    <h3 class="think__sub">The loop</h3>
+    <div class="loop" data-draw>
+      <div class="loop__track">
+        <ol class="loop__stages">
+          {
+            stages.map((name, i) => (
+              <li class="loop__item">
+                {i > 0 && (
+                  <svg class="link" style={{ '--i': i - 1 }} aria-hidden="true" focusable="false">
+                    <g class="link__h">
+                      <line x1="0" y1="50%" x2="100%" y2="50%" pathLength="1" />
+                      <svg x="100%" y="50%" overflow="visible">
+                        <polyline class="tip" points="-6,-4 0,0 -6,4" pathLength="1" />
+                      </svg>
+                    </g>
+                    <g class="link__v">
+                      <line x1="50%" y1="0" x2="50%" y2="100%" pathLength="1" />
+                      <svg x="50%" y="100%" overflow="visible">
+                        <polyline class="tip" points="-4,-6 0,0 4,-6" pathLength="1" />
+                      </svg>
+                    </g>
+                  </svg>
+                )}
+                <span class="loop__stage">{name}</span>
+              </li>
+            ))
+          }
+        </ol>
+
+        <!-- Return path from Improve back to Idea. Desktop runs under the row; mobile runs beside the column. -->
+        <svg class="loop__return loop__return--h" aria-hidden="true" focusable="false">
+          <line style={{ '--i': 4 }} x1="100%" y1="0" x2="100%" y2="100%" pathLength="1" />
+          <line style={{ '--i': 5 }} x1="100%" y1="100%" x2="0" y2="100%" pathLength="1" />
+          <line style={{ '--i': 6 }} x1="0" y1="100%" x2="0" y2="0" pathLength="1" />
+          <polyline style={{ '--i': 6 }} class="tip" points="-4,6 0,0 4,6" pathLength="1" />
+        </svg>
+        <svg class="loop__return loop__return--v" aria-hidden="true" focusable="false">
+          <line style={{ '--i': 4 }} x1="0" y1="100%" x2="100%" y2="100%" pathLength="1" />
+          <line style={{ '--i': 5 }} x1="100%" y1="100%" x2="100%" y2="0" pathLength="1" />
+          <line style={{ '--i': 6 }} x1="100%" y1="0" x2="0" y2="0" pathLength="1" />
+          <polyline style={{ '--i': 6 }} class="tip" points="6,-4 0,0 6,4" pathLength="1" />
+        </svg>
+      </div>
+
+      <p class="loop__note">Then back to Idea</p>
+    </div>
+  </div>
+
+  <!-- Things I'm exploring: the one-line description shows on hover, or on tap/Enter -->
+  <div class="think__block">
+    <h3 class="think__sub">Things I'm exploring</h3>
+    <ol class="explore" data-explore>
+      {
+        exploring.map(([name, line], i) => {
+          const num = String(i + 1).padStart(2, '0');
+          return (
+            <li class="explore__item">
+              <button class="explore__toggle" type="button" aria-expanded="false" aria-controls={`explore-${num}`}>
+                <span class="explore__num">{num}</span>
+                <span class="explore__name">{name}</span>
+              </button>
+              <p class="explore__desc" id={`explore-${num}`}>
+                {line}
+              </p>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    // Line drawing: only when motion is allowed and the browser supports IntersectionObserver.
+    // Otherwise the lines are never hidden, so they show fully drawn.
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-drawn');
+            observer.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.5 }
+      );
+      document.querySelectorAll('#think [data-draw]').forEach((el) => {
+        el.classList.add('is-armed');
+        el.getBoundingClientRect(); // apply the hidden state before drawing starts
+        observer.observe(el);
+      });
+    }
+
+    // Exploring list: tap or Enter opens and closes a description.
+    const list = document.querySelector('#think [data-explore]');
+    if (list) {
+      list.classList.add('is-enhanced');
+      list.querySelectorAll('.explore__toggle').forEach((button) => {
+        button.addEventListener('click', () => {
+          const open = button.getAttribute('aria-expanded') === 'true';
+          button.setAttribute('aria-expanded', String(!open));
+        });
+      });
+    }
+  })();
+</script>
+
+<style>
+  /* Faint grid in this section only (spec: grid appears in Acts II-III). */
+  .think {
+    --step: 0.3s; /* gap between one line starting and the next */
+    --draw: 0.5s; /* how long one line takes to draw */
+    --dot: 0.5625rem;
+    --stage-w: 7.5rem;
+    --stage-h: 3.25rem;
+
+    padding: var(--space-10) var(--margin-page);
+    border-top: var(--line) solid var(--rule);
+    background-color: var(--bg-raised);
+    background-image:
+      linear-gradient(var(--grid) var(--line), transparent var(--line)),
+      linear-gradient(90deg, var(--grid) var(--line), transparent var(--line));
+    background-size: var(--space-8) var(--space-8);
+    background-position: calc(var(--margin-page) - var(--line)) 0;
+  }
+
+  .think__head {
+    display: grid;
+    grid-template-columns: 5fr 1fr 6fr;
+    align-items: end;
+    margin-bottom: var(--space-9);
+  }
+
+  .think__label,
+  .think__sub,
+  .loop__note,
+  .explore__num {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    line-height: var(--leading-snug);
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .think__label {
+    margin-bottom: var(--space-5);
+  }
+
+  .think__message {
+    grid-column: 3;
+    margin: 0;
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+  }
+
+  .think__block + .think__block {
+    margin-top: var(--space-9);
+  }
+
+  .think__sub {
+    margin-bottom: var(--space-6);
+    padding-top: var(--space-3);
+    border-top: var(--line) solid var(--rule);
+  }
+
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* ---------- Lines (shared by both diagrams) ---------- */
+  /* width: 0 + flex-grow: the line takes whatever room is left between two nodes. */
+  .link {
+    display: block;
+    flex: 1 1 0;
+    width: 0;
+    min-width: var(--space-6);
+    height: var(--space-4);
+    margin-inline: var(--space-4);
+    overflow: visible;
+  }
+
+  .link__v {
+    display: none;
+  }
+
+  line,
+  polyline {
+    fill: none;
+    stroke: var(--rule);
+    stroke-width: var(--line);
+  }
+
+  /* Hidden until the diagram scrolls into view, then each line draws in turn.
+     Only the drawing is animated; hiding is instant, so no line is caught half-hidden. */
+  @media (prefers-reduced-motion: no-preference) {
+    .is-armed line,
+    .is-armed polyline {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+    }
+
+    .is-armed.is-drawn line,
+    .is-armed.is-drawn polyline {
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset var(--draw) ease-in-out calc(var(--i) * var(--step));
+    }
+
+    .is-armed.is-drawn .tip {
+      transition-duration: 0.2s;
+      transition-delay: calc(var(--i) * var(--step) + var(--draw));
+    }
+  }
+
+  /* ---------- Connected interests ---------- */
+  .chain {
+    display: flex;
+    align-items: center;
+  }
+
+  .chain__item {
+    display: flex;
+    align-items: center;
+  }
+
+  .chain__item + .chain__item {
+    flex: 1 1 0;
+  }
+
+  .chain__node {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .dot {
+    flex: none;
+    width: var(--dot);
+    height: var(--dot);
+    border: var(--line) solid var(--text);
+    border-radius: 50%;
+  }
+
+  /* ---------- The loop ---------- */
+  .loop__stages {
+    display: flex;
+    align-items: center;
+  }
+
+  .loop__item {
+    display: flex;
+    align-items: center;
+  }
+
+  .loop__item + .loop__item {
+    flex: 1 1 0;
+  }
+
+  .loop__stage {
+    display: grid;
+    place-items: center;
+    width: var(--stage-w);
+    height: var(--stage-h);
+    border: var(--line) solid var(--rule);
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
+    font-weight: 500;
+  }
+
+  .loop__return {
+    position: absolute;
+    overflow: visible;
+  }
+
+  /* Runs from under Improve, along the bottom, and up into Idea. */
+  .loop__return--h {
+    top: var(--stage-h);
+    left: calc(var(--stage-w) / 2);
+    width: calc(100% - var(--stage-w));
+    height: var(--space-7);
+  }
+
+  .loop__return--v {
+    display: none;
+  }
+
+  .loop__track {
+    position: relative;
+  }
+
+  .loop__note {
+    margin: calc(var(--space-7) + var(--space-3)) 0 0;
+    max-width: none;
+    text-align: center;
+  }
+
+  /* ---------- Things I'm exploring ---------- */
+  .explore {
+    border-top: var(--line) solid var(--rule);
+  }
+
+  .explore__item {
+    display: grid;
+    grid-template-columns: 4fr 8fr;
+    align-items: center;
+    column-gap: var(--space-6);
+    border-bottom: var(--line) solid var(--rule);
+  }
+
+  .explore__toggle {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-5);
+    width: 100%;
+    min-height: 2.75rem;
+    padding: var(--space-4) 0;
+    border: 0;
+    background: none;
+    color: var(--text);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .explore__num {
+    min-width: 2ch;
+  }
+
+  .explore__name {
+    flex: 1;
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+  }
+
+  /* A small + / − shows the row can be opened. */
+  .explore__toggle::after {
+    content: '+';
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text);
+  }
+
+  .explore__toggle[aria-expanded='true']::after {
+    content: '−';
+  }
+
+  .explore__desc {
+    margin: 0;
+    max-width: none;
+    color: var(--text);
+  }
+
+  /* With JavaScript on, descriptions wait for hover or a tap. Space is kept, so nothing jumps. */
+  .is-enhanced .explore__desc {
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s;
+  }
+
+  .is-enhanced .explore__toggle[aria-expanded='true'] + .explore__desc {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  @media (hover: hover) {
+    .is-enhanced .explore__item:hover .explore__desc {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  /* ---------- Mobile: everything stacks, diagrams run top to bottom ---------- */
+  @media (max-width: 860px) {
+    .think {
+      padding: var(--space-9) var(--margin-page);
+      background-size: var(--space-7) var(--space-7);
+    }
+
+    .think__head {
+      display: block;
+      margin-bottom: var(--space-8);
+    }
+
+    .think__message {
+      margin-top: var(--space-6);
+    }
+
+    .think__block + .think__block {
+      margin-top: var(--space-8);
+    }
+
+    .link {
+      flex: none;
+      width: var(--dot);
+      min-width: 0;
+      height: var(--space-6);
+      margin: var(--space-2) 0;
+    }
+
+    .link__h {
+      display: none;
+    }
+
+    .link__v {
+      display: inline;
+    }
+
+    .chain,
+    .chain__item,
+    .loop__stages,
+    .loop__item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .loop .link {
+      width: var(--stage-w);
+    }
+
+    /* Runs from the right of Improve, up the side, and back into Idea. */
+    .loop__return--h {
+      display: none;
+    }
+
+    .loop__return--v {
+      display: block;
+      top: calc(var(--stage-h) / 2);
+      height: calc(100% - var(--stage-h)); /* an SVG won't stretch from top + bottom alone */
+      left: var(--stage-w);
+      width: var(--space-7);
+    }
+
+    .loop__note {
+      margin-top: var(--space-5);
+      text-align: left;
+    }
+
+    .explore__item {
+      display: block;
+    }
+
+    .is-enhanced .explore__desc {
+      display: none;
+      padding: 0 0 var(--space-4) calc(2ch + var(--space-5));
+    }
+
+    .is-enhanced .explore__toggle[aria-expanded='true'] + .explore__desc {
+      display: block;
+    }
+  }
+</style>

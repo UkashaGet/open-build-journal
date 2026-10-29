@@ -19,6 +19,8 @@
   --text-muted: var(--color-gray);
   --rule: var(--color-gray);
   --accent: var(--color-clay);
+  --grid: color-mix(in srgb, var(--color-gray) 14%, transparent); /* faint blueprint grid, Act II-III only */
+  /* Warm gray is 3.97:1 on ivory and 4.42:1 on paper, so it's for lines only, never text. */
 
   /* Fonts: pairing A, chosen by Ukasha. Loaded from Google Fonts in the page <head>.
      The names after each font are fallbacks shown while it loads. */
