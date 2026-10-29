@@ -1,20 +1,28 @@
 ---
 // 00 · Hero (PORTFOLIO_SPEC.md section 4).
-// One continuous photo with the headline on the empty wall to the left of the face.
-import { Image } from 'astro:assets';
-import heroPhoto from '../assets/hero/hero-desktop.jpg';
+// Desktop: one full-bleed 16:9 photo with the headline on the empty wall.
+// Mobile: a 9:16 photo behind everything that fades into charcoal, with the text on the charcoal.
+import { Image, getImage } from 'astro:assets';
+import heroDesktop from '../assets/hero/hero-desktop.jpg';
+import heroMobile from '../assets/hero/hero-mobile.jpg';
+
+const mobile = await getImage({ src: heroMobile, widths: [640, 1080, 1536], format: 'webp', quality: 80 });
+const mobileMedia = '(max-width: 760px), (max-aspect-ratio: 1/1)';
 ---
 
 <header class="hero">
-  <Image
-    class="hero__photo"
-    src={heroPhoto}
-    alt="Muhammad Ukasha in a black T-shirt, looking up toward warm window light on a plain wall."
-    widths={[640, 960, 1280, 1600, 2000, 2400]}
-    sizes="(max-width: 760px) 100vw, (max-aspect-ratio: 1/1) 100vw, 125vw"
-    quality={80}
-    priority
-  />
+  <picture class="hero__picture">
+    <source media={mobileMedia} srcset={mobile.srcSet.attribute} sizes="57vh" type="image/webp" />
+    <Image
+      class="hero__photo"
+      src={heroDesktop}
+      alt="Muhammad Ukasha in a black T-shirt, looking up toward warm window light on a plain wall."
+      widths={[960, 1440, 1920, 2752]}
+      sizes="(min-aspect-ratio: 16/9) 100vw, 178vh"
+      quality={80}
+      priority
+    />
+  </picture>
 
   <div class="hero__top">
     <span class="label hero__name reveal reveal--label">Muhammad Ukasha</span>
@@ -45,12 +53,6 @@ import heroPhoto from '../assets/hero/hero-desktop.jpg';
 <style>
   /* ---------- Desktop: one full-bleed photo, text on the wall ---------- */
   .hero {
-    /* How much wider than the screen the photo is drawn. It's pinned to the left edge,
-       so the extra width is trimmed from the plain wall on the right. That moves the
-       face right of centre and leaves more empty wall on the left for the headline. */
-    --photo-zoom: 118%;
-    --photo-y: 22%;
-
     position: relative;
     height: 100svh;
     min-height: 34rem;
@@ -61,14 +63,23 @@ import heroPhoto from '../assets/hero/hero-desktop.jpg';
     background: var(--bg);
   }
 
+  /* Taken out of the layout so it doesn't occupy a grid row; the photo fills it. */
+  .hero__picture {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  /* Cover with no extra zoom. On screens narrower than 16:9 the sides get trimmed;
+       the 35% keeps more of the left wall than the right. */
   .hero__photo {
     position: absolute;
-    inset: 0 auto 0 0;
-    width: var(--photo-zoom);
+    inset: 0;
+    width: 100%;
     max-width: none;
     height: 100%;
     object-fit: cover;
-    object-position: 0% var(--photo-y);
+    object-position: 35% 30%;
     z-index: 0;
   }
 
@@ -198,18 +209,9 @@ import heroPhoto from '../assets/hero/hero-desktop.jpg';
     background: currentColor;
   }
 
-  /* Wide but not very tall screens (e.g. 1024x768): give the wall a bit more room. */
-  @media (max-width: 1200px) {
-    .hero {
-      --photo-zoom: 124%;
-      --photo-y: 18%;
-    }
-    .hero__body {
-      max-width: 34vw;
-    }
-  }
-
-  /* ---------- Mobile and portrait screens: its own stacked composition ---------- */
+  /* ---------- Mobile and portrait screens: photo and text as one composition ----------
+     The 9:16 photo sits behind everything, lifted a little so the face is in the upper half.
+     Its lower part fades into solid charcoal, and the text sits on that charcoal in ivory. */
   @media (max-width: 760px), (max-aspect-ratio: 1/1) {
     .hero {
       height: auto;
@@ -217,10 +219,29 @@ import heroPhoto from '../assets/hero/hero-desktop.jpg';
       display: flex;
       flex-direction: column;
       padding: 0 0 var(--space-5);
+      background: var(--color-charcoal);
     }
 
+    .hero__photo {
+      top: -14svh;
+      height: 100svh;
+      bottom: auto;
+      object-position: 100% 0%;
+    }
+
+    /* The fade: clear over the face, solid charcoal by the time the text starts. */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 44svh 0 0;
+      background: linear-gradient(to bottom, rgb(36 34 31 / 0), var(--color-charcoal) 12svh);
+      z-index: 0;
+    }
+
+    /* The top bar reserves the face area, so the text below can never sit on the face. */
     .hero__top {
-      order: 0;
+      min-height: 56svh;
+      align-items: flex-start;
       padding: var(--space-4) var(--margin-page);
     }
 
@@ -232,21 +253,19 @@ import heroPhoto from '../assets/hero/hero-desktop.jpg';
       font-size: 0.8125rem;
     }
 
-    /* The photo becomes its own block, cropped in on the face. */
-    .hero__photo {
-      order: 1;
-      position: static;
-      width: 100%;
-      height: 47svh;
-      min-height: 18rem;
-      object-position: 72% 22%;
+    .hero__body {
+      max-width: none;
+      margin: auto 0 0;
+      padding: 0 var(--margin-page);
+      color: var(--color-ivory);
     }
 
-    .hero__body {
-      order: 2;
-      max-width: none;
-      margin: 0;
-      padding: var(--space-6) var(--margin-page) 0;
+    .hero__body,
+    .hero__body .hero__meta,
+    .hero__headline,
+    .hero__copy,
+    .hero__scroll {
+      color: var(--color-ivory);
     }
 
     .hero__entry,
@@ -254,8 +273,12 @@ import heroPhoto from '../assets/hero/hero-desktop.jpg';
       font-size: 0.75rem;
     }
 
+    .hero__entry {
+      margin-bottom: var(--space-3);
+    }
+
     .hero__headline {
-      font-size: clamp(2.75rem, 14vw, 5rem);
+      font-size: clamp(2.75rem, 13vw, 5rem);
     }
 
     .hero__copy {
@@ -263,13 +286,20 @@ import heroPhoto from '../assets/hero/hero-desktop.jpg';
       max-width: 22rem;
     }
 
+    .btn-primary {
+      background: var(--color-ivory);
+      color: var(--color-charcoal);
+    }
+
     .btn-quiet {
       display: none; /* mobile gets one call to action */
     }
 
+    .hero__body :focus-visible {
+      outline-color: var(--color-ivory);
+    }
+
     .hero__scroll {
-      order: 3;
-      margin-top: auto;
       padding: var(--space-6) var(--margin-page) 0;
     }
   }

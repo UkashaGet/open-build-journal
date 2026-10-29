@@ -94,21 +94,20 @@ Content blocks below (How I Work, Things I'm Exploring, What's Next) are kept as
 
 ## 4. Hero — `LOCKED` (final version: "Option C")
 
-**Concept:** One integrated composition. A large editorial portrait and oversized serif typography overlap to form one artwork with one focal point.
+**Concept:** One integrated composition. A full-bleed editorial photo with oversized serif typography sitting on the empty wall beside the face, forming one artwork with one focal point. (Updated 29 Oct 2026 after the real hero photos were shot.)
 
 **Layers**
-1. **Photo:** the main visual mass. Close crop with a strong light/shadow relationship. Takes up roughly 55–70% of the composition.
-2. **Headline:** oversized serif that crosses into the portrait's space.
-   - Never covers the eyes.
-   - Stays readable over both light and dark areas.
-   - No opaque text boxes behind it.
-3. **Journal interface:** tiny labels, navigation and a scroll cue.
+1. **Photo:** `hero-desktop.jpg` (16:9), full-bleed, filling the first screen with `cover` and no extra zoom. Hair, face, neck and shoulders stay visible. No framed box, no two-column split, no cards.
+2. **Headline:** oversized serif in charcoal on the empty wall to the left of the face.
+   - Never touches the hair or face.
+   - Stays readable on the wall without an opaque box. A very subtle ivory-tinted gradient on the left is allowed only if the wall tone is uneven.
+3. **Journal interface:** small labels and a scroll cue. No extra navigation links.
 
 **Content**
 - **Top-left:** `MUHAMMAD UKASHA` (small uppercase sans)
 - **Top-right:** `OPEN BUILD JOURNAL / 01`
 - **Small label:** `ENTRY 001`
-- **Headline** (`DRAFT`, working headline): **Learning / *by building.*** on two lines, with the second line in italic or a different weight.
+- **Headline** (`LOCKED`, decided 29 Oct 2026): **Learning / *by building.*** on two lines, with the second line in italic.
 - **Supporting copy** (`DRAFT`): "Exploring ideas, learning new things, and turning what interests me into real projects."
 - **Primary call to action:** `Explore my work →` (more visual weight)
 - **Secondary call to action:** `A little about me` (quieter)
@@ -129,10 +128,13 @@ Content blocks below (How I Work, Things I'm Exploring, What's Next) are kept as
 - **On scroll:** the portrait shifts up slightly and the headline moves away more slowly. It should feel like the hero is becoming Entry 01, not a hard cut to the next section.
 
 **Mobile**
-- This is its own composition, not a squeezed version of desktop.
-- Order: name → portrait → headline → short copy → one call to action → scroll cue.
-- Keep the overlap only if it stays readable.
-- No clipped letters, no tiny metadata, no text across facial features.
+- This is its own composition, not a squeezed version of desktop. Photo and text form one composition.
+- `hero-mobile.jpg` (9:16) fills the full screen height behind everything. No separate photo block with a hard edge.
+- The face sits in the upper half and the black T-shirt fills the lower part. The bottom of the photo fades into solid charcoal (`#24221F`), so the shirt melts into it.
+- The name stays at the top in charcoal, over the wall.
+- `ENTRY 001`, headline, short copy, one call to action and the scroll cue sit on the charcoal area in ivory (`#F3EBDD`). The button becomes an ivory fill with charcoal text.
+- Order: name → photo → headline → short copy → one call to action → scroll cue.
+- No clipped letters, no tiny metadata, no text over the face.
 
 **Hero must not have:**
 - a centered headline with a circular headshot
@@ -204,7 +206,7 @@ Use only these five types, repeated consistently:
 
 ## 7. Photography
 
-The direction is `LOCKED`. The photos themselves are **not shot yet**.
+The direction is `LOCKED`. **Hero photos shot (29 Oct 2026):** `src/assets/hero/hero-desktop.jpg` (16:9, 2752×1536) and `src/assets/hero/hero-mobile.jpg` (9:16, 1536×2752). The other shots in the list below are not shot yet.
 
 - Real photos of Ukasha only. No AI portraits, no stock photos standing in for him.
 - **Style:** editorial or documentary, not a LinkedIn headshot.
@@ -336,7 +338,7 @@ Process strip: Idea → Plan → Build → Result (rough → finished transforma
 ## 10. Open questions (resolve before or during build)
 
 1. ~~Name spelling~~ **Resolved: Muhammad Ukasha.**
-2. **Final hero headline:** "Learning by building." is a working headline. The deeper theme turned out to be exploration, and "Still exploring. Still building." was proposed. Decide one.
+2. ~~Final hero headline~~ **Resolved: "Learning / by building."**
 3. **Font families** for the display serif, body sans, and mono.
 4. **Muted blue accent** for blueprint lines: yes or no. The final palette doesn't include it.
 5. **Karachi in the hero copy and metadata:** the early advice was not to lead with location, but the later copy includes it. Decide.

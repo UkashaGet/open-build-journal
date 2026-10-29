@@ -23,6 +23,9 @@ The full source of truth is **`PORTFOLIO_SPEC.md`**. Read it before every task. 
 6. **Keep it lightweight.** No database, login system, backend, paid APIs, or heavy UI libraries.
 7. **Respect `prefers-reduced-motion`.** The site must work fully with all animation turned off.
 8. **Ask before** creating pull requests, merging, deleting files, or adding a new dependency.
+9. **Save credit.** Take screenshots only at 1440x900 and 390x844 unless Ukasha asks for more.
+10. **Don't poll or wait for Netlify.** Claude can't reach it. Push, report, stop.
+11. **Short reports.** What changed and any problems. Nothing else.
 
 ## Tech direction
 
@@ -54,3 +57,4 @@ Update this list at the end of each stage, one line per stage.
 - 2026-10-20: Stage 1 done. Astro (static output) set up with dev/build/preview scripts and a bare placeholder homepage. Build passes. Awaiting review.
 - 2026-10-29: Stage 2 done. Colour tokens, spacing scale and base styles added. Ukasha chose font pairing A (Instrument Serif + Inter + JetBrains Mono); fonts load from Google Fonts in the homepage head. Test page deleted, hero photo renamed to hero-desktop.jpg, .nvmrc (Node 22) added for Netlify. Build passes. Awaiting review.
 - 2026-10-29: Stage 3 done. Hero built with the real photo (Astro image optimisation), CSS-only entrance that respects reduced motion, separate mobile layout, and placeholder #person / #builds sections. Text contrast at least 7.4:1 on the photo. Scroll effect not built yet. Build passes. Awaiting review.
+- 2026-10-29: Stage 3 revised. New 16:9 desktop and 9:16 mobile photos; desktop uses plain cover, mobile photo fills the screen and fades into charcoal with ivory text. Spec sections 4 and 7 and open question 2 updated. Build passes. Awaiting review.
