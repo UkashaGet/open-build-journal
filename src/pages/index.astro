@@ -1,12 +1,12 @@
 ---
-// Placeholder homepage. The real hero comes in Stage 3.
 import '../styles/global.css';
+import Hero from '../components/Hero.astro';
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Muhammad Ukasha — Open Build Journal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,7 +16,23 @@ import '../styles/global.css';
     />
   </head>
   <body>
-    <h1>Muhammad Ukasha</h1>
-    <p>Open Build Journal — in progress</p>
+    <Hero />
+    <main>
+      <!-- Temporary targets for the hero buttons. Real sections come in Stage 4. -->
+      <section id="person" class="placeholder-section">
+        <p>[PLACEHOLDER: Entry 01]</p>
+      </section>
+      <section id="builds" class="placeholder-section">
+        <p>[PLACEHOLDER: Builds]</p>
+      </section>
+    </main>
   </body>
 </html>
+
+<style>
+  .placeholder-section {
+    min-height: 60vh;
+    padding: var(--space-9) var(--margin-page);
+    border-top: var(--line) solid var(--rule);
+  }
+</style>
