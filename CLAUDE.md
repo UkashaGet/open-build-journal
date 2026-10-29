@@ -36,8 +36,8 @@ The full source of truth is **`PORTFOLIO_SPEC.md`**. Read it before every task. 
 Do these one at a time, with review after each one.
 
 1. **Foundation:** project setup, run and build scripts, and a bare placeholder homepage.
-2. **Visual system:** colour tokens, font testing (show 2–3 real font pairings on screen for Ukasha to choose from), spacing, base styles. ← **current stage (awaiting review)**
-3. **Hero:** the integrated portrait and headline composition with a placeholder, then the real portrait.
+2. **Visual system:** colour tokens, font testing (show 2–3 real font pairings on screen for Ukasha to choose from), spacing, base styles.
+3. **Hero:** the integrated portrait and headline composition with a placeholder, then the real portrait. ← **current stage (awaiting review)**
 4. **Sections:** Entry 01 → How I Think → Builds → What's Next + Contact, one section at a time.
 5. **Polish:** mobile, accessibility, performance, links.
 6. **Deploy.**
@@ -53,3 +53,4 @@ Update this list at the end of each stage, one line per stage.
 - 2026-10-20: Repo created. Spec and CLAUDE.md added. Stage 1 not started.
 - 2026-10-20: Stage 1 done. Astro (static output) set up with dev/build/preview scripts and a bare placeholder homepage. Build passes. Awaiting review.
 - 2026-10-29: Stage 2 done. Colour tokens, spacing scale and base styles added. Ukasha chose font pairing A (Instrument Serif + Inter + JetBrains Mono); fonts load from Google Fonts in the homepage head. Test page deleted, hero photo renamed to hero-desktop.jpg, .nvmrc (Node 22) added for Netlify. Build passes. Awaiting review.
+- 2026-10-29: Stage 3 done. Hero built with the real photo (Astro image optimisation), CSS-only entrance that respects reduced motion, separate mobile layout, and placeholder #person / #builds sections. Text contrast at least 7.4:1 on the photo. Scroll effect not built yet. Build passes. Awaiting review.

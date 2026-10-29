@@ -1,0 +1,322 @@
+---
+// 00 · Hero (PORTFOLIO_SPEC.md section 4).
+// One continuous photo with the headline on the empty wall to the left of the face.
+import { Image } from 'astro:assets';
+import heroPhoto from '../assets/hero/hero-desktop.jpg';
+---
+
+<header class="hero">
+  <Image
+    class="hero__photo"
+    src={heroPhoto}
+    alt="Muhammad Ukasha in a black T-shirt, looking up toward warm window light on a plain wall."
+    widths={[640, 960, 1280, 1600, 2000, 2400]}
+    sizes="(max-width: 760px) 100vw, (max-aspect-ratio: 1/1) 100vw, 125vw"
+    quality={80}
+    priority
+  />
+
+  <div class="hero__top">
+    <span class="label hero__name reveal reveal--label">Muhammad Ukasha</span>
+    <span class="hero__meta hero__journal reveal reveal--label">Open Build Journal / 01</span>
+  </div>
+
+  <div class="hero__body">
+    <span class="hero__meta hero__entry reveal reveal--label">Entry 001</span>
+    <h1 class="hero__headline">
+      <span class="hero__line reveal reveal--line1">Learning</span>
+      <span class="hero__line hero__line--italic reveal reveal--line2">by building.</span>
+    </h1>
+    <p class="hero__copy reveal reveal--copy">
+      Exploring ideas, learning new things, and turning what interests me into real projects.
+    </p>
+    <div class="hero__actions reveal reveal--copy">
+      <a class="btn-primary" href="#builds">Explore my work <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="btn-quiet" href="#person">A little about me</a>
+    </div>
+  </div>
+
+  <div class="hero__scroll reveal reveal--label" aria-hidden="true">
+    <span class="hero__scroll-line"></span>
+    <span>Scroll to explore ↓</span>
+  </div>
+</header>
+
+<style>
+  /* ---------- Desktop: one full-bleed photo, text on the wall ---------- */
+  .hero {
+    /* How much wider than the screen the photo is drawn. It's pinned to the left edge,
+       so the extra width is trimmed from the plain wall on the right. That moves the
+       face right of centre and leaves more empty wall on the left for the headline. */
+    --photo-zoom: 118%;
+    --photo-y: 22%;
+
+    position: relative;
+    height: 100svh;
+    min-height: 34rem;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: clamp(1.25rem, 2.2vw, 2.5rem) var(--margin-page);
+    background: var(--bg);
+  }
+
+  .hero__photo {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--photo-zoom);
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+    object-position: 0% var(--photo-y);
+    z-index: 0;
+  }
+
+  .hero__top,
+  .hero__body,
+  .hero__scroll {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
+  }
+
+  /* Labels sit on the photo, so they use charcoal (not warm gray) to stay readable. */
+  .hero__name {
+    color: var(--text);
+  }
+
+  .hero__meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .hero__body {
+    align-self: center;
+    /* The body column never reaches the hair: about a third of the screen width. */
+    max-width: 31vw;
+    margin-top: clamp(1rem, 6vh, 5rem);
+  }
+
+  .hero__entry {
+    display: block;
+    margin-bottom: var(--space-4);
+  }
+
+  .hero__headline {
+    /* Sized from the screen width because the wall it sits on grows with the width too. */
+    font-size: clamp(3rem, 6.6vw, 9rem);
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+    color: var(--text);
+  }
+
+  .hero__line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .hero__line--italic {
+    font-style: italic;
+  }
+
+  .hero__copy {
+    margin: var(--space-5) 0 var(--space-6);
+    max-width: 21rem; /* about 30-42 characters per line */
+    text-wrap: pretty; /* avoids a single word alone on the last line */
+    font-size: var(--text-base);
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-6);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    padding: 0.85em 1.35em;
+    border-radius: var(--radius-sm);
+    background: var(--color-charcoal);
+    color: var(--color-ivory);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .btn-primary .arrow {
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  .btn-primary:hover .arrow,
+  .btn-primary:focus-visible .arrow {
+    transform: translateX(4px);
+  }
+
+  .btn-quiet {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  .btn-quiet:hover,
+  .btn-quiet:focus-visible {
+    text-decoration-color: currentColor;
+  }
+
+  .hero__scroll {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .hero__scroll-line {
+    width: 3rem;
+    height: var(--line);
+    background: currentColor;
+  }
+
+  /* Wide but not very tall screens (e.g. 1024x768): give the wall a bit more room. */
+  @media (max-width: 1200px) {
+    .hero {
+      --photo-zoom: 124%;
+      --photo-y: 18%;
+    }
+    .hero__body {
+      max-width: 34vw;
+    }
+  }
+
+  /* ---------- Mobile and portrait screens: its own stacked composition ---------- */
+  @media (max-width: 760px), (max-aspect-ratio: 1/1) {
+    .hero {
+      height: auto;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      padding: 0 0 var(--space-5);
+    }
+
+    .hero__top {
+      order: 0;
+      padding: var(--space-4) var(--margin-page);
+    }
+
+    .hero__journal {
+      display: none; /* no tiny metadata on mobile */
+    }
+
+    .hero__name {
+      font-size: 0.8125rem;
+    }
+
+    /* The photo becomes its own block, cropped in on the face. */
+    .hero__photo {
+      order: 1;
+      position: static;
+      width: 100%;
+      height: 47svh;
+      min-height: 18rem;
+      object-position: 72% 22%;
+    }
+
+    .hero__body {
+      order: 2;
+      max-width: none;
+      margin: 0;
+      padding: var(--space-6) var(--margin-page) 0;
+    }
+
+    .hero__entry,
+    .hero__scroll {
+      font-size: 0.75rem;
+    }
+
+    .hero__headline {
+      font-size: clamp(2.75rem, 14vw, 5rem);
+    }
+
+    .hero__copy {
+      margin: var(--space-4) 0 var(--space-5);
+      max-width: 22rem;
+    }
+
+    .btn-quiet {
+      display: none; /* mobile gets one call to action */
+    }
+
+    .hero__scroll {
+      order: 3;
+      margin-top: auto;
+      padding: var(--space-6) var(--margin-page) 0;
+    }
+  }
+
+  /* ---------- Entrance: about 1.3s, then it stops ----------
+     Only runs when the visitor hasn't asked for reduced motion.
+     Otherwise everything is simply shown straight away. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__photo {
+      animation: hero-fade 0.6s ease-out both;
+    }
+    .reveal {
+      animation: hero-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+    .reveal--line1 {
+      animation-delay: 0.3s;
+    }
+    .reveal--line2 {
+      animation-delay: 0.45s;
+    }
+    .reveal--copy {
+      animation-delay: 0.6s;
+    }
+    .reveal--label {
+      animation-name: hero-fade;
+      animation-duration: 0.5s;
+      animation-delay: 0.8s;
+    }
+  }
+
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.4em);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
