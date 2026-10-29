@@ -1,0 +1,61 @@
+/*
+  Design tokens: the named values the whole site is built from.
+  Colours come from PORTFOLIO_SPEC.md section 5 (LOCKED).
+  Fonts: Instrument Serif (display), Inter (body), JetBrains Mono (technical).
+*/
+
+:root {
+  /* Colour */
+  --color-ivory: #f3ebdd; /* main background */
+  --color-paper: #faf8f2; /* secondary surfaces */
+  --color-charcoal: #24221f; /* headlines, primary text */
+  --color-gray: #79736a; /* metadata, supporting text, fine lines */
+  --color-clay: #a66e53; /* optional, very restrained accent */
+
+  /* Colour roles (use these in components, not the raw colours) */
+  --bg: var(--color-ivory);
+  --bg-raised: var(--color-paper);
+  --text: var(--color-charcoal);
+  --text-muted: var(--color-gray);
+  --rule: var(--color-gray);
+  --accent: var(--color-clay);
+
+  /* Fonts: pairing A, chosen by Ukasha. Loaded from Google Fonts in the page <head>.
+     The names after each font are fallbacks shown while it loads. */
+  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* Type scale: fluid, so sizes grow smoothly with the screen width */
+  --text-xs: clamp(0.6875rem, 0.66rem + 0.1vw, 0.75rem);
+  --text-sm: clamp(0.8125rem, 0.78rem + 0.15vw, 0.875rem);
+  --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --text-lg: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  --text-xl: clamp(1.75rem, 1.4rem + 1.4vw, 2.75rem);
+  --text-2xl: clamp(2.5rem, 1.8rem + 3vw, 5rem);
+  --text-hero: clamp(2.75rem, 1rem + 5.4vw, 7rem);
+
+  --leading-tight: 1.02;
+  --leading-snug: 1.25;
+  --leading-body: 1.6;
+
+  --tracking-label: 0.14em; /* small uppercase labels */
+
+  /* Spacing scale (4px steps early, bigger jumps later) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+
+  /* Layout */
+  --margin-page: clamp(1.25rem, 4.5vw, 4rem); /* outer margin, about 4-5vw per spec */
+  --measure: 38rem; /* comfortable reading width */
+  --radius-sm: 2px; /* spec: small corner radius only */
+  --line: 1px;
+}
