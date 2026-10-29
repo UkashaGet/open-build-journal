@@ -13,21 +13,14 @@ const stages = [
   ['Improve', 'Carry it into the next one.'],
 ];
 
-// Connected interests, staggered. y = height on desktop, x = indent on mobile (both in %).
-const interests = [
-  { name: 'AI', y: 72, x: 2 },
-  { name: 'Design', y: 24, x: 44 },
-  { name: 'Media', y: 64, x: 14 },
-  { name: 'Business', y: 18, x: 50 },
-  { name: 'Psychology', y: 58, x: 26 },
-];
+const interests = ['AI', 'Design', 'Media', 'Business', 'Psychology'];
 
 // Things I'm exploring. Notes from Ukasha, 29 Oct 2026.
 const exploring = [
   ['AI', 'Using AI tools to plan and build things, including this site.'],
-  ['Automation', '[PLACEHOLDER: your line]'],
+  ['Automation', 'Building small automations into how I work, and learning as I go.'],
   ['Design', 'Posters, thumbnails and branding for my own projects.'],
-  ['Psychology', '[PLACEHOLDER: your line]'],
+  ['Psychology', 'How people think and make decisions. Mostly reading about it for now.'],
   ['Video', 'Editing my YouTube videos in DaVinci Resolve: story, pacing, sound.'],
   ['Web', 'Building websites, starting with this one.'],
   ['Business', 'Testing ideas for real, starting with PixelFolio.'],
@@ -85,30 +78,28 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     </div>
   </div>
 
-  <!-- Connected interests: different heights, joined by thin lines -->
+  <!-- Connected interests: one line running through the five dots -->
   <div class="think__block">
     <h3 class="think__sub">Connected interests</h3>
-    <ol class="web" data-draw>
-      {
-        interests.map(({ name, y, x }, i) => {
-          const prev = interests[i - 1];
-          return (
+    <div class="web" data-draw>
+      <!-- Desktop: left to right through the dots. Mobile: top to bottom. -->
+      <svg class="web__line web__line--h" style={{ '--i': 0 }} aria-hidden="true" focusable="false">
+        <line x1="0" y1="50%" x2="100%" y2="50%" pathLength="1" />
+      </svg>
+      <svg class="web__line web__line--v" style={{ '--i': 0 }} aria-hidden="true" focusable="false">
+        <line x1="50%" y1="0" x2="50%" y2="100%" pathLength="1" />
+      </svg>
+      <ol class="web__list">
+        {
+          interests.map((name) => (
             <li class="web__item">
-              {prev && (
-                <svg class="web__link" style={{ '--i': i - 1 }} aria-hidden="true" focusable="false">
-                  <line class="web__h" x1="0" y1={`${prev.y}%`} x2="100%" y2={`${y}%`} pathLength="1" />
-                  <line class="web__v" x1={`${prev.x}%`} y1="0" x2={`${x}%`} y2="100%" pathLength="1" />
-                </svg>
-              )}
-              <span class="web__node" style={{ '--y': `${y}%`, '--x': `${x}%` }}>
-                <span class="dot" aria-hidden="true" />
-                {name}
-              </span>
+              <span class="dot" aria-hidden="true" />
+              <span class="web__word">{name}</span>
             </li>
-          );
-        })
-      }
-    </ol>
+          ))
+        }
+      </ol>
+    </div>
   </div>
 
   <!-- Things I'm exploring: always visible -->
@@ -322,55 +313,59 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     display: none;
   }
 
-  /* ---------- Connected interests ---------- */
+  /* ---------- Connected interests ----------
+     Five equal columns with a dot centred at the top of each, so the dots sit at
+     10%, 30% ... 90%. The line runs from the first dot's centre to the last. */
   .web {
-    display: flex;
-    height: 12rem;
+    --draw: 1.2s; /* one long line, so it draws a little slower */
+    position: relative;
+  }
+
+  .web__list {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .web__item {
     display: flex;
-  }
-
-  .web__item + .web__item {
-    flex: 1 1 0;
-  }
-
-  /* The node's middle sits at its --y height, so the lines can meet it there. */
-  .web__node {
-    position: relative;
-    top: var(--y);
-    align-self: flex-start;
-    display: inline-flex;
+    flex-direction: column;
     align-items: center;
-    gap: var(--space-3);
-    transform: translateY(-50%);
+    gap: var(--space-4);
+  }
+
+  .web__word {
     font-family: var(--font-display);
     font-size: var(--text-xl);
     line-height: 1;
     white-space: nowrap;
   }
 
+  /* Filled with the page colour and drawn above the line, so the line meets each ring cleanly. */
   .dot {
+    position: relative;
+    z-index: 1;
     flex: none;
     width: var(--dot);
     height: var(--dot);
     border: var(--line) solid var(--text);
     border-radius: 50%;
+    background: var(--bg-raised);
   }
 
-  /* width: 0 + flex-grow: each line takes the room left between two words. */
-  .web__link {
+  .web__line {
+    position: absolute;
     display: block;
-    flex: 1 1 0;
-    width: 0;
-    min-width: var(--space-6);
-    height: 100%;
-    margin-inline: var(--space-3);
     overflow: visible;
   }
 
-  .web__v {
+  .web__line--h {
+    top: calc(var(--dot) / 2 - var(--line) / 2);
+    left: 10%;
+    width: 80%;
+    height: var(--line);
+  }
+
+  .web__line--v {
     display: none;
   }
 
@@ -463,36 +458,30 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
       height: calc(100% - var(--word-mid));
     }
 
-    /* Interests: stacked, each word indented by its --x and joined by a short diagonal. */
+    /* Interests: one left-aligned list, the line running down through the dots. */
     .web {
-      flex-direction: column;
-      height: auto;
+      --row: 3.25rem;
+    }
+
+    .web__list {
+      display: block;
     }
 
     .web__item {
-      flex-direction: column;
+      flex-direction: row;
+      height: var(--row);
     }
 
-    .web__node {
-      top: 0;
-      left: var(--x);
-      transform: translateX(calc(var(--dot) / -2));
-    }
-
-    .web__link {
-      flex: none;
-      width: 100%;
-      min-width: 0;
-      height: var(--space-7);
-      margin: var(--space-2) 0;
-    }
-
-    .web__h {
+    .web__line--h {
       display: none;
     }
 
-    .web__v {
-      display: inline;
+    .web__line--v {
+      display: block;
+      top: calc(var(--row) / 2);
+      left: calc(var(--dot) / 2 - var(--line) / 2);
+      width: var(--line);
+      height: calc(100% - var(--row));
     }
 
     /* Table: each row becomes number + subject + thread, then the note underneath. */
