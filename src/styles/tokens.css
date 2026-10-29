@@ -1,8 +1,7 @@
 /*
   Design tokens: the named values the whole site is built from.
   Colours come from PORTFOLIO_SPEC.md section 5 (LOCKED).
-  Font families are still OPEN, so the --font-* values below are plain
-  system fallbacks until Ukasha picks a pairing.
+  Fonts: Instrument Serif (display), Inter (body), JetBrains Mono (technical).
 */
 
 :root {
@@ -21,10 +20,11 @@
   --rule: var(--color-gray);
   --accent: var(--color-clay);
 
-  /* Fonts (placeholders until the pairing is chosen) */
-  --font-display: Georgia, 'Times New Roman', serif;
-  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  /* Fonts: pairing A, chosen by Ukasha. Loaded from Google Fonts in the page <head>.
+     The names after each font are fallbacks shown while it loads. */
+  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 
   /* Type scale: fluid, so sizes grow smoothly with the screen width */
   --text-xs: clamp(0.6875rem, 0.66rem + 0.1vw, 0.75rem);
