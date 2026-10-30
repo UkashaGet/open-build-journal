@@ -1,6 +1,10 @@
 ---
 import '../styles/global.css';
 import Hero from '../components/Hero.astro';
+import Person from '../components/Person.astro';
+import Think from '../components/Think.astro';
+import Builds from '../components/Builds.astro';
+import Next from '../components/Next.astro';
 ---
 
 <html lang="en">
@@ -18,21 +22,11 @@ import Hero from '../components/Hero.astro';
   <body>
     <Hero />
     <main>
-      <!-- Temporary targets for the hero buttons. Real sections come in Stage 4. -->
-      <section id="person" class="placeholder-section">
-        <p>[PLACEHOLDER: Entry 01]</p>
-      </section>
-      <section id="builds" class="placeholder-section">
-        <p>[PLACEHOLDER: Builds]</p>
-      </section>
+      <Person />
+      <Think />
+      <Builds />
+      <Next />
     </main>
   </body>
 </html>
 
-<style>
-  .placeholder-section {
-    min-height: 60vh;
-    padding: var(--space-9) var(--margin-page);
-    border-top: var(--line) solid var(--rule);
-  }
-</style>

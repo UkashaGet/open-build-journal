@@ -1,0 +1,529 @@
+---
+// 02 · How I Think (PORTFOLIO_SPEC.md sections 3, 6 and 8).
+// The only scroll effect is line drawing: thin SVG lines that draw in when a diagram comes into view.
+// Without JavaScript, or with reduced motion, every line is simply shown fully drawn.
+import JournalPage from './JournalPage.astro';
+
+// The loop. Lines approved by Ukasha, 29 Oct 2026.
+const stages = [
+  ['Idea', 'Something catches my attention.'],
+  ['Plan', 'Break it down into steps.'],
+  ['Build', 'Make the real thing. My favourite part.'],
+  ['Learn', "See what worked and what didn't."],
+  ['Improve', 'Carry it into the next one.'],
+];
+
+const interests = ['AI', 'Design', 'Media', 'Business', 'Psychology'];
+
+// Things I'm exploring. Notes from Ukasha, 29 Oct 2026.
+const exploring = [
+  ['AI', 'Using AI tools to plan and build things, including this site.'],
+  ['Automation', 'Building small automations into how I work, and learning as I go.'],
+  ['Design', 'Posters, thumbnails and branding for my own projects.'],
+  ['Psychology', 'How people think and make decisions. Mostly reading about it for now.'],
+  ['Video', 'Editing my YouTube videos in DaVinci Resolve: story, pacing, sound.'],
+  ['Web', 'Building websites, starting with this one.'],
+  ['Business', 'Testing ideas for real, starting with PixelFolio.'],
+];
+
+const num = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+<JournalPage id="think" entry="02" name="How I Think" next={{ name: 'Builds', href: '#builds' }} grid>
+  <div class="think__head">
+    <h2 id="think-title" class="think__title">How I think</h2>
+    <p class="think__message">
+      I enjoy the part where a careful plan turns into real work. I like breaking complex ideas down into practical
+      steps I can actually build.
+    </p>
+  </div>
+
+  <!-- The loop: five stages, then a clay line from Improve back to Idea -->
+  <div class="think__block">
+    <h3 class="think__sub">The loop</h3>
+    <div class="loop" data-draw>
+      <ol class="loop__stages">
+        {
+          stages.map(([word, line], i) => (
+            <li class="stage">
+              <span class="stage__top" aria-hidden="true">
+                <span>{num(i)}</span>
+                <span>→</span>
+              </span>
+              <svg class="stage__rule" style={{ '--i': i }} aria-hidden="true" focusable="false">
+                <line x1="0" y1="50%" x2="100%" y2="50%" pathLength="1" />
+              </svg>
+              <span class="stage__word">{word}</span>
+              <span class="stage__line">{line}</span>
+            </li>
+          ))
+        }
+      </ol>
+
+      <!-- Desktop: a U under the row. Mobile: down the left side. Both run from Improve back to Idea. -->
+      <svg class="loop__return loop__return--h" aria-hidden="true" focusable="false">
+        <line style={{ '--i': 5 }} x1="100%" y1="0" x2="100%" y2="100%" pathLength="1" />
+        <line style={{ '--i': 6 }} x1="100%" y1="100%" x2="0" y2="100%" pathLength="1" />
+        <line style={{ '--i': 7 }} x1="0" y1="100%" x2="0" y2="0" pathLength="1" />
+        <polyline style={{ '--i': 7 }} class="tip" points="-4,6 0,0 4,6" pathLength="1" />
+      </svg>
+      <svg class="loop__return loop__return--v" aria-hidden="true" focusable="false">
+        <line style={{ '--i': 5 }} x1="100%" y1="100%" x2="0" y2="100%" pathLength="1" />
+        <line style={{ '--i': 6 }} x1="0" y1="100%" x2="0" y2="0" pathLength="1" />
+        <line style={{ '--i': 7 }} x1="0" y1="0" x2="100%" y2="0" pathLength="1" />
+        <svg x="100%" y="0" overflow="visible">
+          <polyline style={{ '--i': 7 }} class="tip" points="-6,-4 0,0 -6,4" pathLength="1" />
+        </svg>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Connected interests: one line running through the five dots -->
+  <div class="think__block">
+    <h3 class="think__sub">Connected interests</h3>
+    <div class="web" data-draw>
+      <!-- Desktop: left to right through the dots. Mobile: top to bottom. -->
+      <svg class="web__line web__line--h" style={{ '--i': 0 }} aria-hidden="true" focusable="false">
+        <line x1="0" y1="50%" x2="100%" y2="50%" pathLength="1" />
+      </svg>
+      <svg class="web__line web__line--v" style={{ '--i': 0 }} aria-hidden="true" focusable="false">
+        <line x1="50%" y1="0" x2="50%" y2="100%" pathLength="1" />
+      </svg>
+      <ol class="web__list">
+        {
+          interests.map((name) => (
+            <li class="web__item">
+              <span class="dot" aria-hidden="true" />
+              <span class="web__word">{name}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+
+  <!-- Things I'm exploring: always visible -->
+  <div class="think__block">
+    <h3 class="think__sub">Things I'm exploring</h3>
+    <table class="explore">
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Subject</th>
+          <th scope="col">Note</th>
+          <th scope="col">Thread</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          exploring.map(([subject, note], i) => (
+            <tr>
+              <td class="explore__num">{num(i)}</td>
+              <th class="explore__subject" scope="row">
+                {subject}
+              </th>
+              <td class="explore__note">{note}</td>
+              <td class="explore__thread">Open</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</JournalPage>
+
+<script is:inline>
+  (() => {
+    // Line drawing: only when motion is allowed and the browser supports IntersectionObserver.
+    // Otherwise the lines are never hidden, so they show fully drawn.
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-drawn');
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.5 }
+    );
+    document.querySelectorAll('#think [data-draw]').forEach((el) => {
+      el.classList.add('is-armed');
+      observer.observe(el);
+    });
+  })();
+</script>
+
+<style>
+  .think__head,
+  .think__block,
+  .loop,
+  .web {
+    --step: 0.3s; /* gap between one line starting and the next */
+    --draw: 0.5s; /* how long one line takes to draw */
+    --dot: 0.5625rem;
+  }
+
+  /* ---------- Title + statement ---------- */
+  .think__head {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    column-gap: var(--space-8);
+    align-items: end;
+    margin-bottom: var(--space-9);
+  }
+
+  .think__title {
+    font-size: var(--text-2xl);
+  }
+
+  .think__message {
+    margin: 0;
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+  }
+
+  .think__block + .think__block {
+    margin-top: var(--space-9);
+  }
+
+  .think__sub,
+  .stage__top,
+  .explore thead th,
+  .explore__num,
+  .explore__thread {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: 400;
+    letter-spacing: var(--tracking-label);
+    line-height: var(--leading-snug);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .think__sub {
+    margin-bottom: var(--space-6);
+  }
+
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* ---------- Lines (shared) ---------- */
+  line,
+  polyline {
+    fill: none;
+    stroke: var(--rule);
+    stroke-width: var(--line);
+  }
+
+  /* Hidden until the diagram scrolls into view, then each line draws in turn.
+     Only the drawing is animated; hiding is instant, so no line is caught half-hidden. */
+  @media (prefers-reduced-motion: no-preference) {
+    .is-armed line,
+    .is-armed polyline {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+    }
+
+    .is-armed.is-drawn line,
+    .is-armed.is-drawn polyline {
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset var(--draw) ease-in-out calc(var(--i) * var(--step));
+    }
+
+    .is-armed.is-drawn .tip {
+      transition-duration: 0.2s;
+      transition-delay: calc(var(--i) * var(--step) + var(--draw));
+    }
+  }
+
+  /* ---------- The loop ---------- */
+  .loop {
+    --u-inset: var(--space-5); /* where the U meets Idea and Improve */
+    --u-height: var(--space-7);
+    position: relative;
+    padding-bottom: calc(var(--u-height) + var(--space-5));
+  }
+
+  .loop__stages {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .stage {
+    display: flex;
+    flex-direction: column;
+    padding-right: var(--space-5);
+  }
+
+  .stage__top {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: var(--space-2);
+  }
+
+  .stage__rule {
+    display: block;
+    width: 100%;
+    height: var(--line);
+    overflow: visible;
+  }
+
+  .stage__rule line {
+    stroke: var(--text);
+  }
+
+  .stage__word {
+    margin-top: var(--space-4);
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    line-height: 1;
+  }
+
+  .stage__line {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    line-height: var(--leading-snug);
+    color: var(--text-muted);
+  }
+
+  .loop__return {
+    position: absolute;
+    overflow: visible;
+  }
+
+  .loop__return line,
+  .loop__return polyline {
+    stroke: var(--accent);
+  }
+
+  /* Columns are 20% wide, so Idea starts at 0% and Improve at 80%. */
+  .loop__return--h {
+    bottom: 0;
+    left: var(--u-inset);
+    width: 80%;
+    height: var(--u-height);
+  }
+
+  .loop__return--v {
+    display: none;
+  }
+
+  /* ---------- Connected interests ----------
+     Five equal columns with a dot centred at the top of each, so the dots sit at
+     10%, 30% ... 90%. The line runs from the first dot's centre to the last. */
+  .web {
+    --draw: 1.2s; /* one long line, so it draws a little slower */
+    position: relative;
+  }
+
+  .web__list {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .web__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .web__word {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* Filled with the page colour and drawn above the line, so the line meets each ring cleanly. */
+  .dot {
+    position: relative;
+    z-index: 1;
+    flex: none;
+    width: var(--dot);
+    height: var(--dot);
+    border: var(--line) solid var(--text);
+    border-radius: 50%;
+    background: var(--bg-raised);
+  }
+
+  .web__line {
+    position: absolute;
+    display: block;
+    overflow: visible;
+  }
+
+  .web__line--h {
+    top: calc(var(--dot) / 2 - var(--line) / 2);
+    left: 10%;
+    width: 80%;
+    height: var(--line);
+  }
+
+  .web__line--v {
+    display: none;
+  }
+
+  /* ---------- Things I'm exploring ---------- */
+  .explore {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .explore th,
+  .explore td {
+    padding: var(--space-4) var(--space-5) var(--space-4) 0;
+    border-bottom: var(--line) solid var(--rule);
+    vertical-align: baseline;
+  }
+
+  .explore thead th {
+    padding-block: 0 var(--space-3);
+  }
+
+  .explore__num {
+    width: 4rem;
+  }
+
+  .explore__subject {
+    width: 22%;
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 400;
+    line-height: var(--leading-snug);
+  }
+
+  .explore__note {
+    color: var(--text);
+  }
+
+  .explore th:last-child,
+  .explore td:last-child {
+    padding-right: 0;
+    text-align: right;
+  }
+
+  /* ---------- Mobile: everything stacks ---------- */
+  @media (max-width: 860px) {
+    .think__head {
+      display: block;
+      margin-bottom: var(--space-8);
+    }
+
+    .think__message {
+      margin-top: var(--space-5);
+    }
+
+    .think__block + .think__block {
+      margin-top: var(--space-8);
+    }
+
+    /* Loop: one stage per row, with the clay line running up the left side. */
+    .loop {
+      --gutter: var(--space-6);
+      /* From the top of a stage to the middle of its word. */
+      --word-mid: calc(
+        var(--text-label) * 1.25 + var(--space-2) + var(--line) + var(--space-4) + var(--text-display) / 2
+      );
+      padding: 0 0 var(--space-5) var(--gutter);
+    }
+
+    .loop__stages {
+      display: block;
+    }
+
+    .stage {
+      padding-right: 0;
+    }
+
+    .stage + .stage {
+      margin-top: var(--space-6);
+    }
+
+    .loop__return--h {
+      display: none;
+    }
+
+    .loop__return--v {
+      display: block;
+      top: var(--word-mid);
+      left: 0;
+      width: calc(var(--gutter) - var(--space-2));
+      height: calc(100% - var(--word-mid));
+    }
+
+    /* Interests: one left-aligned list, the line running down through the dots. */
+    .web {
+      --row: 3.25rem;
+    }
+
+    .web__list {
+      display: block;
+    }
+
+    .web__item {
+      flex-direction: row;
+      height: var(--row);
+    }
+
+    .web__line--h {
+      display: none;
+    }
+
+    .web__line--v {
+      display: block;
+      top: calc(var(--row) / 2);
+      left: calc(var(--dot) / 2 - var(--line) / 2);
+      width: var(--line);
+      height: calc(100% - var(--row));
+    }
+
+    /* Table: each row becomes number + subject + thread, then the note underneath. */
+    .explore thead {
+      display: none;
+    }
+
+    .explore,
+    .explore tbody {
+      display: block;
+    }
+
+    .explore tr {
+      display: grid;
+      grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+      grid-template-areas:
+        'num subject thread'
+        '. note note';
+      align-items: baseline;
+      padding: var(--space-4) 0;
+      border-bottom: var(--line) solid var(--rule);
+    }
+
+    .explore th,
+    .explore td {
+      width: auto;
+      padding: 0;
+      border: 0;
+    }
+
+    .explore__num {
+      grid-area: num;
+    }
+    .explore__subject {
+      grid-area: subject;
+    }
+    .explore__thread {
+      grid-area: thread;
+    }
+    .explore__note {
+      grid-area: note;
+      margin-top: var(--space-2);
+    }
+  }
+</style>

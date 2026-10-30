@@ -1,0 +1,172 @@
+---
+// 01 · Entry 01: The Person (PORTFOLIO_SPEC.md section 8).
+// Copy is the spec's DRAFT About text, word for word: the first two sentences are the lead,
+// the rest runs in two columns. No grid in this section.
+import JournalPage from './JournalPage.astro';
+
+const filedUnder = ['Business student', 'Technology', 'AI', 'Digital creation'];
+---
+
+<JournalPage id="person" entry="01" name="The Person" next={{ name: 'How I Think', href: '#think' }} titled>
+  <div slot="rail" class="filed">
+    <p class="filed__label">Filed under</p>
+    <ul class="filed__list">
+      {filedUnder.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="filed__status"><span class="filed__label">Status:</span> Currently exploring</p>
+  </div>
+
+  <div class="person">
+    <div class="person__text">
+      <p class="person__lead">
+        I'm someone who learns best by doing. I like taking a plan, breaking it into steps, and turning it into
+        something real.
+      </p>
+      <div class="person__columns">
+        <p>
+          My interest in technology pushed me toward different areas — YouTube content creation, video editing, photo
+          editing, design, AI tools, and building websites.
+        </p>
+        <p>
+          I'm still growing, still learning, and still trying different things to understand what I do best. I don't
+          believe in fake confidence or empty words. I believe in building real work, improving steadily, and staying
+          focused on long-term goals.
+        </p>
+      </div>
+    </div>
+
+    <figure class="person__figure">
+      <div class="person__photo">
+        <span>Photo placeholder: working at desk</span>
+      </div>
+      <figcaption class="person__caption">Fig. 01 — At the desk</figcaption>
+    </figure>
+  </div>
+</JournalPage>
+
+<style>
+  /* ---------- Rail: filed under + status ---------- */
+  .filed {
+    margin-top: var(--space-7);
+    font-size: var(--text-sm);
+    line-height: var(--leading-snug);
+  }
+
+  .filed__label {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .filed__list {
+    margin: var(--space-3) 0 var(--space-5);
+    padding: 0;
+    list-style: none;
+  }
+
+  .filed__list li + li {
+    margin-top: var(--space-1);
+  }
+
+  .filed__status {
+    margin: 0;
+    padding-top: var(--space-3);
+    border-top: var(--line) solid var(--rule);
+  }
+
+  /* ---------- Page body: text left, photo right ---------- */
+  .person {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 22.5rem;
+    column-gap: var(--space-8);
+    align-items: start;
+  }
+
+  .person__lead {
+    max-width: 18em;
+    margin: 0 0 var(--space-7);
+    font-family: var(--font-display);
+    font-size: var(--text-lead);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+
+  .person__columns {
+    columns: 2;
+    column-gap: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: var(--line) solid var(--rule);
+  }
+
+  .person__columns p {
+    margin: 0 0 var(--space-4);
+    break-inside: avoid;
+  }
+
+  .person__figure {
+    margin: 0;
+  }
+
+  /* 360 x 450 placeholder until the real photo arrives. */
+  .person__photo {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 5;
+    padding: var(--space-5);
+    border: var(--line) solid var(--rule);
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--text);
+  }
+
+  .person__caption {
+    margin-top: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ---------- Mobile: lead, text in one column, photo, filed-under stays under the number ---------- */
+  @media (max-width: 860px) {
+    .filed {
+      margin-top: var(--space-5);
+    }
+
+    .filed__list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1) var(--space-4);
+      margin: var(--space-2) 0 var(--space-4);
+    }
+
+    .filed__list li + li {
+      margin-top: 0;
+    }
+
+    .person {
+      display: block;
+    }
+
+    .person__lead {
+      margin-bottom: var(--space-6);
+    }
+
+    .person__columns {
+      columns: 1;
+    }
+
+    .person__figure {
+      margin-top: var(--space-7);
+    }
+  }
+</style>
